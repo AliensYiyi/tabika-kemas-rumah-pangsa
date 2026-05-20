@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jawatankuasa | JPKK Hang Tuah Sagil</title>
+  <title>Jawatankuasa | TABIKA KEMAS Rumah Pangsa</title>
 
   <style>
     :root {
-      --primary: #1f3f91;
-      --primary-dark: #142b68;
-      --primary-light: #eaf1ff;
-      --accent: #f7c948;
-      --bg: #07111f;
-      --card: #ffffff;
-      --text: #101828;
+      --blue: #4f8cff;
+      --blue-dark: #2563eb;
+      --yellow: #ffd166;
+      --pink: #ff7eb6;
+      --green: #7bd88f;
+      --purple: #b197fc;
+      --cream: #fff8e7;
+      --white: #ffffff;
+      --text: #24324b;
       --muted: #667085;
-      --line: #dbe7ff;
-      --shadow: 0 20px 45px rgba(0, 0, 0, .18);
+      --shadow: 0 18px 35px rgba(37, 99, 235, .16);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Segoe UI", Arial, sans-serif;
+      font-family: "Comic Sans MS", "Segoe UI", Arial, sans-serif;
     }
 
     html {
@@ -34,8 +35,37 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(42, 90, 200, .45), transparent 32%),
-        linear-gradient(135deg, #030712 0%, #07111f 52%, #020617 100%);
+        radial-gradient(circle at 10% 10%, rgba(255, 209, 102, .45), transparent 25%),
+        radial-gradient(circle at 90% 15%, rgba(255, 126, 182, .35), transparent 28%),
+        radial-gradient(circle at 20% 85%, rgba(123, 216, 143, .35), transparent 25%),
+        linear-gradient(135deg, #eaf6ff 0%, #fff8e7 55%, #ffeef6 100%);
+      overflow-x: hidden;
+    }
+
+    /* DECORATION */
+    .shape {
+      position: fixed;
+      z-index: -1;
+      opacity: .8;
+      pointer-events: none;
+    }
+
+    .shape.one {
+      top: 120px;
+      left: 35px;
+      font-size: 62px;
+    }
+
+    .shape.two {
+      bottom: 90px;
+      right: 45px;
+      font-size: 72px;
+    }
+
+    .shape.three {
+      top: 50%;
+      right: 7%;
+      font-size: 48px;
     }
 
     /* NAVBAR */
@@ -43,15 +73,16 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(31, 63, 145, .92);
+      background: rgba(255, 255, 255, .88);
       backdrop-filter: blur(14px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, .25);
+      box-shadow: 0 8px 25px rgba(79, 140, 255, .18);
+      border-bottom: 4px solid var(--yellow);
     }
 
     .nav-container {
-      max-width: 1320px;
+      max-width: 1250px;
       margin: auto;
-      padding: 14px 24px;
+      padding: 14px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -62,18 +93,19 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      color: white;
+      color: var(--blue-dark);
       font-size: 19px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
     }
 
     .brand img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
       object-fit: cover;
-      border: 3px solid rgba(255, 255, 255, .85);
+      border: 4px solid var(--yellow);
+      background: white;
     }
 
     .nav-links {
@@ -83,36 +115,28 @@
     }
 
     .nav-links a {
-      color: white;
+      color: var(--text);
       text-decoration: none;
       font-size: 15px;
-      font-weight: 700;
-      padding: 10px 13px;
+      font-weight: 800;
+      padding: 10px 14px;
       border-radius: 999px;
       transition: .25s ease;
     }
 
     .nav-links a:hover,
     .nav-links a.active {
-      background: rgba(255, 255, 255, .18);
-    }
-
-    .search-btn {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
+      background: var(--blue);
       color: white;
-      border: 1px solid rgba(255,255,255,.25);
-      border-radius: 50%;
-      font-size: 22px;
+      transform: translateY(-2px);
     }
 
     .menu-toggle {
       display: none;
-      color: white;
-      font-size: 30px;
+      color: var(--blue-dark);
+      font-size: 32px;
       cursor: pointer;
+      font-weight: 900;
     }
 
     #menu-check {
@@ -121,11 +145,11 @@
 
     /* HERO */
     .hero {
-      max-width: 1320px;
+      max-width: 1250px;
       margin: auto;
-      padding: 70px 24px 35px;
+      padding: 70px 22px 35px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.05fr .95fr;
       gap: 35px;
       align-items: center;
     }
@@ -134,29 +158,31 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255, 255, 255, .08);
-      color: #dbeafe;
-      border: 1px solid rgba(255, 255, 255, .14);
-      padding: 9px 16px;
+      background: white;
+      color: var(--blue-dark);
+      border: 3px dashed var(--yellow);
+      padding: 10px 18px;
       border-radius: 999px;
-      font-weight: 700;
+      font-weight: 900;
       margin-bottom: 18px;
+      box-shadow: var(--shadow);
     }
 
     .hero h1 {
-      color: white;
-      font-size: clamp(36px, 5vw, 64px);
+      font-size: clamp(36px, 5vw, 62px);
       line-height: 1.05;
       margin-bottom: 18px;
-      letter-spacing: -1.5px;
+      color: var(--text);
+      letter-spacing: -1px;
     }
 
     .hero h1 span {
-      color: var(--accent);
+      color: var(--pink);
+      text-shadow: 2px 2px 0 #ffe2ef;
     }
 
     .hero p {
-      color: #cbd5e1;
+      color: #475467;
       max-width: 690px;
       font-size: 17px;
       line-height: 1.8;
@@ -171,57 +197,68 @@
 
     .btn {
       display: inline-block;
-      padding: 13px 22px;
+      padding: 14px 24px;
       border-radius: 999px;
       text-decoration: none;
-      font-weight: 800;
+      font-weight: 900;
       transition: .25s ease;
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: #1f2937;
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 12px 22px rgba(79, 140, 255, .28);
     }
 
     .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 25px rgba(247, 201, 72, .25);
+      transform: translateY(-4px) rotate(-1deg);
     }
 
     .btn-secondary {
-      color: white;
-      border: 1px solid rgba(255,255,255,.22);
-      background: rgba(255,255,255,.06);
+      color: var(--text);
+      background: white;
+      border: 3px solid var(--yellow);
     }
 
     .hero-panel {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 28px;
+      background: white;
+      border-radius: 36px;
       padding: 24px;
       box-shadow: var(--shadow);
+      border: 4px solid #ffffff;
+      position: relative;
+    }
+
+    .hero-panel::before {
+      content: "🌈";
+      position: absolute;
+      top: -35px;
+      right: 24px;
+      font-size: 60px;
     }
 
     .hero-panel-inner {
-      background: white;
-      border-radius: 24px;
-      padding: 28px;
+      background: linear-gradient(180deg, #f2f8ff, #fff8e7);
+      border-radius: 28px;
+      padding: 30px 22px;
       text-align: center;
+      border: 3px dashed rgba(79, 140, 255, .35);
     }
 
     .hero-panel img {
-      width: 160px;
-      height: 160px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
       object-fit: cover;
-      border: 8px solid var(--primary-light);
+      border: 9px solid var(--yellow);
       margin-bottom: 18px;
     }
 
     .hero-panel h3 {
-      font-size: 24px;
+      font-size: 25px;
       margin-bottom: 8px;
       text-transform: uppercase;
+      color: var(--blue-dark);
     }
 
     .hero-panel p {
@@ -232,32 +269,37 @@
 
     /* CONTENT */
     .page {
-      max-width: 1320px;
+      max-width: 1250px;
       margin: auto;
-      padding: 30px 24px 90px;
+      padding: 30px 22px 90px;
     }
 
     .section-head {
       text-align: center;
-      margin: 30px auto 35px;
+      margin: 35px auto 35px;
       max-width: 760px;
     }
 
     .section-head small {
-      color: var(--accent);
+      display: inline-block;
+      color: var(--pink);
+      background: white;
+      padding: 8px 16px;
+      border-radius: 999px;
       font-weight: 900;
-      letter-spacing: 1.8px;
+      letter-spacing: 1.3px;
       text-transform: uppercase;
+      border: 3px solid #ffd7e8;
     }
 
     .section-head h2 {
-      color: white;
+      color: var(--text);
       font-size: clamp(28px, 4vw, 42px);
-      margin: 10px 0;
+      margin: 14px 0 10px;
     }
 
     .section-head p {
-      color: #cbd5e1;
+      color: #475467;
       line-height: 1.7;
     }
 
@@ -279,13 +321,13 @@
     .card {
       position: relative;
       overflow: hidden;
-      background: var(--card);
-      border-radius: 26px;
+      background: var(--white);
+      border-radius: 30px;
       padding: 34px 24px;
       min-height: 335px;
       text-align: center;
-      border: 1px solid var(--line);
-      box-shadow: 0 14px 30px rgba(0,0,0,.12);
+      border: 4px solid white;
+      box-shadow: var(--shadow);
       transition: .28s ease;
     }
 
@@ -295,13 +337,22 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 7px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
+      height: 12px;
+      background: linear-gradient(90deg, var(--blue), var(--yellow), var(--pink), var(--green));
+    }
+
+    .card::after {
+      content: "✏️";
+      position: absolute;
+      right: 18px;
+      bottom: 15px;
+      font-size: 28px;
+      opacity: .35;
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 24px 45px rgba(0,0,0,.2);
+      transform: translateY(-8px) rotate(.5deg);
+      box-shadow: 0 24px 45px rgba(79, 140, 255, .25);
     }
 
     .avatar {
@@ -309,7 +360,7 @@
       height: 138px;
       border-radius: 50%;
       object-fit: cover;
-      border: 7px solid var(--primary-light);
+      border: 8px solid #fff1bf;
       margin-bottom: 22px;
       box-shadow: 0 10px 20px rgba(31, 63, 145, .14);
     }
@@ -324,17 +375,19 @@
       line-height: 1.35;
       text-transform: uppercase;
       margin-bottom: 8px;
+      color: var(--text);
     }
 
     .role {
       display: inline-block;
-      color: var(--primary);
-      background: var(--primary-light);
-      padding: 7px 14px;
+      color: var(--blue-dark);
+      background: #eaf3ff;
+      padding: 8px 15px;
       border-radius: 999px;
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 15px;
+      border: 2px solid #cfe2ff;
     }
 
     .desc {
@@ -347,7 +400,7 @@
       display: flex;
       align-items: center;
       gap: 18px;
-      color: #dbeafe;
+      color: var(--blue-dark);
       font-weight: 900;
       letter-spacing: 1.2px;
       margin: 15px 0 32px;
@@ -359,15 +412,18 @@
     .divider::after {
       content: "";
       flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--yellow), var(--pink));
     }
 
     footer {
       text-align: center;
-      color: #cbd5e1;
+      color: var(--text);
+      background: rgba(255,255,255,.65);
       padding: 35px 20px;
-      border-top: 1px solid rgba(255,255,255,.1);
+      border-top: 4px solid var(--yellow);
+      font-weight: 700;
     }
 
     /* RESPONSIVE */
@@ -385,9 +441,10 @@
         display: none;
         flex-direction: column;
         align-items: stretch;
-        background: rgba(20, 43, 104, .95);
+        background: white;
         padding: 15px;
-        border-radius: 18px;
+        border-radius: 22px;
+        box-shadow: var(--shadow);
       }
 
       #menu-check:checked ~ .nav-links {
@@ -396,10 +453,6 @@
 
       .nav-links a {
         text-align: center;
-      }
-
-      .search-btn {
-        margin: auto;
       }
 
       .hero {
@@ -417,10 +470,7 @@
         justify-content: center;
       }
 
-      .top-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
+      .top-grid,
       .member-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -435,12 +485,12 @@
       }
 
       .brand {
-        font-size: 16px;
+        font-size: 15px;
       }
 
       .brand img {
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
       }
 
       .top-grid,
@@ -449,7 +499,7 @@
       }
 
       .hero h1 {
-        font-size: 38px;
+        font-size: 36px;
       }
 
       .hero-panel-inner {
@@ -475,118 +525,121 @@
 </head>
 <body>
 
+  <div class="shape one">🧸</div>
+  <div class="shape two">🌟</div>
+  <div class="shape three">🎨</div>
+
   <header class="navbar">
     <div class="nav-container">
       <div class="brand">
-        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=300&auto=format&fit=crop" alt="Logo JPKK" />
-        <span>JPKK Hang Tuah Sagil</span>
+        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=300&auto=format&fit=crop" alt="Logo Tabika" />
+        <span>TABIKA KEMAS Rumah Pangsa</span>
       </div>
 
       <input type="checkbox" id="menu-check" />
       <label for="menu-check" class="menu-toggle">☰</label>
 
       <nav class="nav-links">
+        <a href="#">Utama</a>
         <a href="#">Tentang</a>
+        <a href="#">Program</a>
         <a href="#">Aktiviti</a>
-        <a href="#">Kalendar</a>
-        <a href="#">Berita</a>
-        <a href="#">Pengumuman</a>
-        <a href="#jawatankuasa" class="active">Jawatankuasa</a>
+        <a href="#" class="active">Guru & AJK</a>
         <a href="#">Galeri</a>
         <a href="#">Hubungi</a>
-        <span class="search-btn">⌕</span>
       </nav>
     </div>
   </header>
 
   <section class="hero">
     <div>
-      <div class="hero-badge">● Jawatankuasa Komuniti</div>
-      <h1>Barisan <span>Kepimpinan</span><br>JPKK Hang Tuah Sagil</h1>
+      <div class="hero-badge">🌈 Ceria • Selamat • Menyeronokkan</div>
+      <h1>Kenali <span>Warga Tabika</span><br>Kami</h1>
       <p>
-        Kenali ahli jawatankuasa yang bertanggungjawab membantu pengurusan komuniti,
-        aktiviti masyarakat, keselamatan, pembangunan dan kebajikan penduduk setempat.
+        Selamat datang ke laman rasmi TABIKA KEMAS Rumah Pangsa. Halaman ini memaparkan guru,
+        pembantu dan jawatankuasa yang membantu mewujudkan suasana pembelajaran yang ceria,
+        selamat dan mesra kanak-kanak.
       </p>
       <div class="hero-actions">
-        <a href="#jawatankuasa" class="btn btn-primary">Lihat Ahli</a>
-        <a href="#" class="btn btn-secondary">Hubungi Kami</a>
+        <a href="#jawatankuasa" class="btn btn-primary">Lihat Warga Tabika</a>
+        <a href="#" class="btn btn-secondary">Daftar Anak</a>
       </div>
     </div>
 
     <div class="hero-panel">
       <div class="hero-panel-inner">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Pengerusi JPKK" />
-        <h3>Atan Bin Salam</h3>
-        <p>Pengerusi JPKK Hang Tuah Sagil</p>
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Guru Tabika" />
+        <h3>Cikgu Aina</h3>
+        <p>Guru TABIKA KEMAS Rumah Pangsa</p>
       </div>
     </div>
   </section>
 
   <main class="page" id="jawatankuasa">
     <div class="section-head">
-      <small>Organisasi Rasmi</small>
-      <h2>Jawatankuasa Utama</h2>
-      <p>Struktur kepimpinan utama yang mengurus pentadbiran, komunikasi dan kewangan JPKK.</p>
+      <small>Pasukan Kami</small>
+      <h2>Guru dan Pengurusan Tabika</h2>
+      <p>Barisan warga tabika yang membantu pembelajaran, keselamatan dan perkembangan kanak-kanak setiap hari.</p>
     </div>
 
     <section class="top-grid">
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Atan Bin Salam" />
-        <h2>Atan Bin Salam</h2>
-        <p class="role">Pengerusi</p>
-        <p class="desc">Berpengalaman dalam kepimpinan komuniti, penyelarasan program dan hubungan masyarakat.</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cikgu Aina" />
+        <h2>Cikgu Aina</h2>
+        <p class="role">Guru Tabika</p>
+        <p class="desc">Membimbing kanak-kanak melalui aktiviti pembelajaran awal yang kreatif dan menyeronokkan.</p>
       </article>
 
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Noor Azman Bin Omar" />
-        <h2>Noor Azman Bin Omar</h2>
-        <p class="role">Setiausaha</p>
-        <p class="desc">Mengurus dokumentasi, mesyuarat dan urusan pentadbiran JPKK dengan teratur.</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cikgu Farah" />
+        <h2>Cikgu Farah</h2>
+        <p class="role">Pembantu Guru</p>
+        <p class="desc">Membantu pengurusan kelas, aktiviti harian dan memastikan murid sentiasa selesa.</p>
       </article>
 
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Noor Azman Abu Bakar" />
-        <h2>Noor Azman Abu Bakar</h2>
-        <p class="role">Bendahari</p>
-        <p class="desc">Bertanggungjawab terhadap kewangan, rekod perbelanjaan dan laporan audit JPKK.</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/41.jpg" alt="Encik Azlan" />
+        <h2>Encik Azlan</h2>
+        <p class="role">Pengerusi AJK</p>
+        <p class="desc">Menyelaras sokongan ibu bapa dan komuniti untuk program serta kebajikan tabika.</p>
       </article>
     </section>
 
-    <div class="divider">Ahli Jawatankuasa</div>
+    <div class="divider">Ahli Jawatankuasa Ibu Bapa</div>
 
     <section class="member-grid">
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Wati Ayub" />
-        <h2>Wati Ayub</h2>
-        <p class="role">Ahli Jawatankuasa</p>
-        <p class="desc">Biro Pemantapan Spiritual</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Puan Wati" />
+        <h2>Puan Wati</h2>
+        <p class="role">Setiausaha</p>
+        <p class="desc">Membantu dokumentasi, minit mesyuarat dan komunikasi program tabika.</p>
       </article>
 
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/22.jpg" alt="Ros Shaimi Burhan" />
-        <h2>Ros Shaimi Burhan</h2>
-        <p class="role">Ahli Jawatankuasa</p>
-        <p class="desc">Biro Ekonomi dan Keusahawanan</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/22.jpg" alt="Encik Ros" />
+        <h2>Encik Ros</h2>
+        <p class="role">Bendahari</p>
+        <p class="desc">Mengurus rekod kewangan dan sumbangan aktiviti kanak-kanak.</p>
       </article>
 
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/51.jpg" alt="Mohd Adi Rasit" />
-        <h2>Mohd Adi Rasit</h2>
-        <p class="role">Ahli Jawatankuasa</p>
-        <p class="desc">Biro Pembangunan Prasarana</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/55.jpg" alt="Puan Nadia" />
+        <h2>Puan Nadia</h2>
+        <p class="role">AJK Aktiviti</p>
+        <p class="desc">Merancang aktiviti kreatif, sukaneka dan program pembelajaran luar kelas.</p>
       </article>
 
       <article class="card">
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/12.jpg" alt="Mohd Zaini Salim" />
-        <h2>Mohd Zaini Salim</h2>
-        <p class="role">Ahli Jawatankuasa</p>
-        <p class="desc">Biro Keselamatan dan Kesihatan</p>
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/12.jpg" alt="Encik Zaini" />
+        <h2>Encik Zaini</h2>
+        <p class="role">AJK Keselamatan</p>
+        <p class="desc">Membantu memastikan persekitaran tabika selamat dan teratur.</p>
       </article>
     </section>
   </main>
 
   <footer>
-    <p>© 2026 JPKK Hang Tuah Sagil. Semua hak cipta terpelihara.</p>
+    <p>© 2026 TABIKA KEMAS Rumah Pangsa. Pembelajaran Ceria Bermula Di Sini 🌟</p>
   </footer>
 
 </body>
