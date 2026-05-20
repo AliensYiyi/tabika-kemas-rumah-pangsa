@@ -1,123 +1,346 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Website</title>
+  <title>Jawatankuasa | JPKK Hang Tuah Sagil</title>
 
   <style>
+    :root {
+      --blue: #1f3f91;
+      --blue-soft: #eef4ff;
+      --text: #101828;
+      --muted: #667085;
+      --line: #d7e3f5;
+      --card: #ffffff;
+      --bg: #050505;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
     }
 
     body {
-      background: #f4f6f9;
-      color: #333;
+      background: var(--bg);
+      color: var(--text);
     }
 
-    header {
-      background: #1e293b;
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      background: var(--blue);
       color: white;
-      padding: 20px 40px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.25);
+    }
+
+    .nav-container {
+      max-width: 1450px;
+      margin: auto;
+      padding: 16px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 25px;
     }
 
-    nav a {
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 20px;
+      white-space: nowrap;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: white;
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-links a {
       color: white;
       text-decoration: none;
-      margin-left: 20px;
-      font-weight: bold;
+      font-weight: 650;
+      padding: 11px 14px;
+      border-radius: 8px;
+      transition: .25s ease;
     }
 
-    .hero {
-      min-height: 80vh;
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(255,255,255,.18);
+    }
+
+    .search {
+      font-size: 24px;
+      line-height: 1;
+      opacity: .95;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 1450px;
+      margin: auto;
+      padding: 55px 28px 80px;
+    }
+
+    .page-title {
+      text-align: center;
+      color: white;
+      margin-bottom: 38px;
+    }
+
+    .page-title span {
+      display: inline-block;
+      background: rgba(31, 63, 145, .2);
+      color: #b9d3ff;
+      padding: 8px 18px;
+      border: 1px solid rgba(185, 211, 255, .25);
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .page-title h1 {
+      font-size: clamp(30px, 4vw, 48px);
+      margin-bottom: 10px;
+    }
+
+    .page-title p {
+      color: #b7c0cf;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    /* CARDS */
+    .top-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+      gap: 28px;
+      max-width: 940px;
+      margin: 0 auto 70px;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 30px 24px;
+      text-align: center;
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 30px rgba(31, 63, 145, .12);
+      transition: .25s ease;
+      min-height: 320px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      padding: 20px;
+      justify-content: center;
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 15px;
+    .card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 18px 40px rgba(31, 63, 145, .22);
+      border-color: #9fc3ff;
     }
 
-    .hero p {
-      max-width: 700px;
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      padding: 5px;
+      background: white;
+      border: 5px solid var(--blue-soft);
+      margin-bottom: 22px;
+    }
+
+    .member-grid .avatar {
+      width: 118px;
+      height: 118px;
+    }
+
+    .card h2 {
+      font-size: 21px;
+      line-height: 1.35;
+      margin-bottom: 7px;
+      color: #020617;
+      text-transform: uppercase;
+    }
+
+    .role {
+      color: #064cff;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .desc {
+      color: var(--muted);
+      font-size: 15px;
       line-height: 1.6;
-      margin-bottom: 25px;
+      max-width: 280px;
     }
 
-    .btn {
-      background: #2563eb;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #1d4ed8;
-    }
-
-    footer {
-      background: #1e293b;
-      color: white;
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #bdd7ff;
+      font-weight: 800;
+      letter-spacing: .8px;
+      margin: 0 0 35px;
       text-align: center;
-      padding: 15px;
     }
 
-    @media (max-width: 768px) {
-      header {
+    .section-divider::before,
+    .section-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.55);
+    }
+
+    @media (max-width: 1100px) {
+      .nav-container {
         flex-direction: column;
-        gap: 10px;
       }
 
-      nav a {
-        margin: 0 10px;
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
-      .hero h1 {
-        font-size: 2rem;
+      .member-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .top-grid,
+      .member-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links a {
+        font-size: 14px;
+        padding: 8px 10px;
+      }
+
+      .brand {
+        font-size: 17px;
+      }
+
+      .card {
+        min-height: auto;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h2>My Website</h2>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=300&auto=format&fit=crop" alt="Logo JPKK" />
+        <span>JPKK Hang Tuah Sagil</span>
+      </div>
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Contact</a>
-    </nav>
+      <nav class="nav-links">
+        <a href="#">Tentang</a>
+        <a href="#">Aktiviti</a>
+        <a href="#">Kalendar</a>
+        <a href="#">Berita</a>
+        <a href="#">Pengumuman</a>
+        <a href="#" class="active">Jawatankuasa</a>
+        <a href="#">Galeri</a>
+        <a href="#">Hubungi</a>
+        <span class="search">⌕</span>
+      </nav>
+    </div>
   </header>
 
-  <section class="hero">
-    <h1>Welcome to My Website</h1>
+  <main class="page">
+    <section class="page-title">
+      <span>Organisasi Komuniti</span>
+      <h1>Jawatankuasa JPKK</h1>
+      <p>Senarai ahli jawatankuasa yang bertanggungjawab mengurus, menyelaras dan memperkukuh komuniti Hang Tuah Sagil.</p>
+    </section>
 
-    <p>
-      This website is hosted using GitHub Pages. 
-      You can edit this file and push updates anytime.
-    </p>
+    <section class="top-grid">
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Atan Bin Salam" />
+        <h2>Atan Bin Salam</h2>
+        <p class="role">Pengerusi</p>
+        <p class="desc">Pengerusi JPKK Hang Tuah Sagil yang berpengalaman dalam kepimpinan komuniti dan masyarakat.</p>
+      </article>
 
-    <a href="#" class="btn">Get Started</a>
-  </section>
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Noor Azman Bin Omar" />
+        <h2>Noor Azman Bin Omar</h2>
+        <p class="role">Setiausaha</p>
+        <p class="desc">Setiausaha yang berdedikasi dan cekap dalam menguruskan pentadbiran JPKK.</p>
+      </article>
 
-  <footer>
-    <p>© 2026 My Website. All rights reserved.</p>
-  </footer>
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Noor Azman Abu Bakar" />
+        <h2>Noor Azman Abu Bakar</h2>
+        <p class="role">Bendahari</p>
+        <p class="desc">Bendahari yang berpengalaman dalam pengurusan kewangan dan audit JPKK.</p>
+      </article>
+    </section>
+
+    <div class="section-divider">AHLI JAWATANKUASA</div>
+
+    <section class="member-grid">
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Wati Ayub" />
+        <h2>Wati Ayub</h2>
+        <p class="role">Ahli Jawatankuasa</p>
+        <p class="desc">Biro Pemantapan Spiritual</p>
+      </article>
+
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/22.jpg" alt="Ros Shaimi Burhan" />
+        <h2>Ros Shaimi Burhan</h2>
+        <p class="role">Ahli Jawatankuasa</p>
+        <p class="desc">Biro Ekonomi dan Keusahawanan</p>
+      </article>
+
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/51.jpg" alt="Mohd Adi Rasit" />
+        <h2>Mohd Adi Rasit</h2>
+        <p class="role">Ahli Jawatankuasa</p>
+        <p class="desc">Biro Pembangunan Prasarana</p>
+      </article>
+
+      <article class="card">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/12.jpg" alt="Mohd Zaini Salim" />
+        <h2>Mohd Zaini Salim</h2>
+        <p class="role">Ahli Jawatankuasa</p>
+        <p class="desc">Biro Keselamatan dan Kesihatan</p>
+      </article>
+    </section>
+  </main>
 
 </body>
 </html>
