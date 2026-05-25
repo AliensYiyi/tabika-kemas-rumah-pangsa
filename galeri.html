@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeri | TABIKA KEMAS Rumah Pangsa</title>
+
+  <style>
+    :root {
+  --primary: #4f8cff;
+  --primary-dark: #2563eb;
+  --secondary: #ffd166;
+  --pink: #ff7eb6;
+  --green: #7bd88f;
+  --cream: #fff8e7;
+  --white: #ffffff;
+  --text: #24324b;
+  --muted: #667085;
+  --shadow: 0 18px 35px rgba(37, 99, 235, .16);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Comic Sans MS", "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 209, 102, .35), transparent 25%),
+    radial-gradient(circle at 90% 15%, rgba(255, 126, 182, .25), transparent 28%),
+    radial-gradient(circle at 20% 85%, rgba(123, 216, 143, .25), transparent 25%),
+    linear-gradient(135deg, #eef7ff 0%, #fffaf0 55%, #fff1f7 100%);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, .9);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 25px rgba(79, 140, 255, .18);
+  border-bottom: 4px solid var(--secondary);
+}
+
+.nav-container {
+  width: 100%;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary-dark);
+  font-size: 19px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.brand img {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 4px solid var(--secondary);
+  background: white;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 800;
+  padding: 10px 14px;
+  border-radius: 999px;
+  transition: .25s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+#menu-check {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--primary-dark);
+  cursor: pointer;
+}
+
+/* ================= PAGE ================= */
+
+.page-content {
+  flex: 1;
+  max-width: 1250px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 50px 24px;
+}
+
+.page-head {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.page-head h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  margin-bottom: 12px;
+}
+
+.page-head p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: auto;
+}
+
+/* ================= ALBUM GRID ================= */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.gallery-item {
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(10px);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(37, 99, 235, .12);
+  border: 3px solid rgba(255,255,255,.9);
+  transition: 0.35s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.gallery-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 28px 50px rgba(37, 99, 235, .22);
+  border-color: var(--secondary);
+}
+
+.gallery-item img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-caption {
+  padding: 18px;
+  text-align: center;
+  font-weight: 900;
+  color: var(--primary-dark);
+  font-size: 18px;
+}
+
+.folder-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255,255,255,.92);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  backdrop-filter: blur(8px);
+}
+
+/* ================= BUTTON ================= */
+
+.btn-back {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.25s ease;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 20px rgba(79,140,255,.2);
+}
+
+.btn-back:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+}
+
+/* ================= PHOTO GRID ================= */
+
+#photos-grid {
+  align-items: start;
+}
+
+.photo-card {
+  transition: 0.3s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-6px);
+}
+
+.photo-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 22px;
+  box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+  border: 4px solid white;
+  display: block;
+  transition: 0.3s ease;
+}
+
+.photo-card img:hover {
+  transform: scale(1.02);
+}
+
+/* ================= FOOTER ================= */
+
+footer {
+  text-align: center;
+  color: var(--text);
+  background: rgba(255,255,255,.72);
+  padding: 35px 20px;
+  border-top: 4px solid var(--secondary);
+  font-weight: 700;
+  margin-top: 50px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 1050px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-container {
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    background: white;
+    padding: 15px;
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+  }
+
+  #menu-check:checked ~ .nav-links {
+    display: flex;
+  }
+
+  .nav-links a {
+    text-align: center;
+  }
+}
+
+@media (max-width: 650px) {
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-container,
+  .page-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .brand {
+    font-size: 15px;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .brand img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .page-head h1 {
+    font-size: 28px;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=300&auto=format&fit=crop" alt="Logo Tabika">
+        <span>TABIKA KEMAS Rumah Pangsa</span>
+      </div>
+
+      <input type="checkbox" id="menu-check" />
+      <label for="menu-check" class="menu-toggle">☰</label>
+
+      <nav class="nav-links">
+        <a href="index.html">Utama</a>
+        <a href="index.html#tentang">Tentang</a>
+        <a href="program.html">Program</a>
+        <a href="ajk.html">Guru & AJK</a>
+        <a href="PIBG.html">Buku Program PIBG</a>
+        <a href="galeri.html" class="active">Galeri</a>
+        <a href="hubungi.html">Hubungi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="page-head">
+      <h1>🎨 Galeri Aktiviti</h1>
+      <p>Lihatlah momen-momen indah, keceriaan dan aktiviti pembelajaran anak-anak kita.</p>
+    </div>
+
+    <!-- Paparan Senarai Album -->
+    <div class="gallery-grid" id="albums-view">
+      <div class="gallery-item" onclick="openAlbum('gotong-royong', 'Gotong Royong TKRP')">
+        <img src="https://lh3.googleusercontent.com/d/16phWbg7BG4PcgbKYlWIoewoVNDBpL-HU" alt="Gotong Royong">
+        <div class="folder-overlay">📁 14 Gambar</div>
+        <div class="gallery-caption">Gotong Royong TKRP</div>
+      </div>
+      
+      <div class="gallery-item" onclick="openAlbum('pembelajaran', 'Sesi Pembelajaran Ceria')">
+        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=600&auto=format&fit=crop" alt="Sesi Belajar">
+        <div class="folder-overlay">📁 2 Gambar</div>
+        <div class="gallery-caption">Sesi Pembelajaran Ceria</div>
+      </div>
+    </div>
+
+    <!-- Paparan Gambar dalam Album (Tersembunyi) -->
+    <div id="photos-view" style="display: none;">
+      <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
+      <h2 id="current-album-title" style="margin-bottom: 24px; color: var(--primary-dark);"></h2>
+      <div class="gallery-grid" id="photos-grid">
+        <!-- Gambar akan dijana oleh JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 TABIKA KEMAS Rumah Pangsa. Pembelajaran Ceria Bermula Di Sini 🌟</p>
+  </footer>
+
+  <script>
+    // Data gambar mengikut album
+    const albumData = {
+      'pembelajaran': [
+        { src: 'https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=600&auto=format&fit=crop', caption: 'Sesi Pembelajaran Ceria 📚' },
+        { src: 'image3.png', caption: 'Riadah & Bermain Bersama 🧸' }
+      ],
+      'gotong-royong': [
+        { src: 'https://lh3.googleusercontent.com/d/16phWbg7BG4PcgbKYlWIoewoVNDBpL-HU', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1XFLL11aHsc60f9IFBaqJcfkbjP0jm9ci', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1L2TDkM8k8IZzlJ7MCXrh_Yi7QvH6n1Kf', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/17hVbHQKnAWE1KCg1W6oMhP-qG-sLkrCK', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1aGgJByftiHsdseMoPnXVZFQDfNhevyT_', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1XhlM6fjt1anw-paQQIfDfQu4Nkz0p_Ve', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1nMHCM-qTPRcaBRn4bQVUystidcA7Gr8Q', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1HEKDxp6v9m7_4IbIepKLTUDgcYZ71ry7', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1ig4iEiv-SFNMxh4jGKMMq12cm_Cx8Yf5', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/14E4jDw3IP8LRsLkIzZmkyXXBQkSevEwj', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1O3KD21sQxFiFL2JFyokv0ZY88JYW93rR', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1z66pMJEXmcpu3EMiVJpukY2VklHIriGg', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1k4cdlTEhX7cLdIJMA6JE9Xn0P099ZV0U', caption: 'Gotong Royong TKRP 🧹' },
+        { src: 'https://lh3.googleusercontent.com/d/1NP3JIK8QC7U4tjakAK5Y4rXUFf_eoDqE', caption: 'Gotong Royong TKRP 🧹' }
+      ]
+    };
+
+    // Fungsi untuk buka album
+    function openAlbum(albumId, title) {
+      document.getElementById('albums-view').style.display = 'none';
+      document.getElementById('photos-view').style.display = 'block';
+      document.getElementById('current-album-title').innerText = title;
+      
+      const photosGrid = document.getElementById('photos-grid');
+      photosGrid.innerHTML = '';
+      
+      const photos = albumData[albumId] || [];
+      photos.forEach(photo => {
+        const item = document.createElement('div');
+        item.className = 'photo-card';
+        item.innerHTML = `
+          <img src="${photo.src}" alt="${title}">
+        `;
+        photosGrid.appendChild(item);
+      });
+
+      // Kemaskini URL tanpa memuat semula halaman (Hash)
+      history.pushState(null, null, '#' + albumId);
+      window.scrollTo(0, 0);
+    }
+
+    // Fungsi untuk tutup album
+    function closeAlbum() {
+      document.getElementById('albums-view').style.display = 'grid';
+      document.getElementById('photos-view').style.display = 'none';
+      history.pushState(null, null, window.location.pathname);
+    }
+
+    // Semak jika ada hash (#) pada URL semasa halaman dimuatkan (Untuk program page link)
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.substring(1);
+      if (hash && albumData[hash]) {
+        let title = "Galeri";
+        if(hash === 'pembelajaran') title = "Sesi Pembelajaran Ceria";
+        if(hash === 'seni') title = "Seni & Nyanyian";
+        if(hash === 'sukan') title = "Sukaneka";
+        if(hash === 'graduasi') title = "Hari Graduasi";
+        if(hash === 'gotong-royong') title = "Gotong Royong TKRP";
+        
+        openAlbum(hash, title);
+      }
+    });
+  </script>
+</body>
+</html>
