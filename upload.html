@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Muat Naik Aktiviti Galeri</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --primary: #4f8cff;
+      --primary-dark: #2563eb;
+      --secondary: #ffd166;
+      --green: #7bd88f;
+      --text: #24324b;
+      --muted: #667085;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #eef7ff 0%, #fffaf0 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .upload-container {
+      background: white;
+      padding: 40px;
+      border-radius: 28px;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, .12);
+      border: 4px solid var(--secondary);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 30px;
+      font-size: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border: 3px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 10px 20px rgba(79,140,255,.2);
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .status-msg {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+    }
+
+    .status-success {
+      background: #e6fffa;
+      color: #234e52;
+      border: 2px solid var(--green);
+    }
+
+    .status-error {
+      background: #fff5f5;
+      color: #742a2a;
+      border: 2px solid #feb2b2;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="upload-container">
+  <h1>📤 Muat Naik Aktiviti Baru</h1>
+  <div class="subtitle">Ruangan khas Guru untuk mengemaskini Galeri TABIKA</div>
+
+  <form id="uploadForm">
+    <div class="form-group">
+      <label for="title">🎯 Tajuk Aktiviti / Event</label>
+      <input type="text" id="title" placeholder="Contoh: Gotong-Royong Perdana 2026" required>
+    </div>
+
+    <div class="form-group">
+      <label for="event_date">📅 Tarikh Aktiviti</label>
+      <input type="date" id="event_date" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">📝 Keterangan Singkat</label>
+      <textarea id="description" placeholder="Ceritakan sedikit suasana atau aktiviti yang dijalankan..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="main_photo_url">🖼️ Link Gambar Utama (Cover Photo)</label>
+      <input type="text" id="main_photo_url" placeholder="Sila masukkan link direct gambar dari Google Drive" required>
+      <div class="hint">Nota: Gambar ini akan dipaparkan di halaman utama galeri.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="drive_folder_url">📁 Link Folder Google Drive (Gambar-gambar lain)</label>
+      <input type="text" id="drive_folder_url" placeholder="https://drive.google.com/drive/folders/..." required>
+      <div class="hint">Pastikan tetapan folder Drive ditukar kepada: <b>"Anyone with the link can view"</b>.</div>
+    </div>
+
+    <button type="submit" class="btn-submit">Simpan & Kemaskini Galeri ✨</button>
+  </form>
+
+  <div id="statusMsg" class="status-msg"></div>
+</div>
+
+<script>
+  // 1. ISIKAN MAKLUMAT SUPABASE ANDA DI SINI
+  const SUPABASE_URL = "https://risqswbpixtoemnmzyqe.supabase.co"; 
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpc3Fzd2JwaXh0b2Vtbm16eXFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODQ2NTMsImV4cCI6MjA5Njc2MDY1M30.GX1MLG4lQ_Uz4BlmgrM0SPljbCoYC7k4LpAWobr5PGQ"; // Masukkan Anon Key anda
+  
+  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Handle Form Submission
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const statusMsg = document.getElementById('statusMsg');
+    const submitBtn = document.querySelector('.btn-submit');
+    
+    // Ambil data dari input form
+    const title = document.getElementById('title').value;
+    const event_date = document.getElementById('event_date').value;
+    const description = document.getElementById('description').value;
+    const main_photo_url = document.getElementById('main_photo_url').value;
+    const drive_folder_url = document.getElementById('drive_folder_url').value;
+
+    // Tukar status butang semasa loading
+    submitBtn.innerText = "Sedang disimpan...";
+    submitBtn.disabled = true;
+
+    try {
+      // Hantar data ke dalam table Supabase (gallery_events)
+      const { data, error } = await supabase
+        .from('gallery_events')
+        .insert([
+          { 
+            title: title, 
+            event_date: event_date, 
+            description: description, 
+            main_photo_url: main_photo_url, 
+            drive_folder_url: drive_folder_url 
+          }
+        ]);
+
+      if (error) throw error;
+
+      // Papar mesej berjaya
+      statusMsg.className = "status-msg status-success";
+      statusMsg.innerText = "🎉 Berjaya! Aktiviti baru telah dimasukkan ke dalam galeri.";
+      statusMsg.style.display = "block";
+
+      // Reset form semula
+      document.getElementById('uploadForm').reset();
+
+    } catch (error) {
+      console.error(error);
+      statusMsg.className = "status-msg status-error";
+      statusMsg.innerText = "❌ Gagal menyimpan: " + error.message;
+      statusMsg.style.display = "block";
+    } finally {
+      // Kembalikan butang ke asal
+      submitBtn.innerText = "Simpan & Kemaskini Galeri ✨";
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
