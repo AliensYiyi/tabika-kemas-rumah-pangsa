@@ -1,3 +1,36 @@
+Ada **satu ralat kecil** yang tersorot pada fungsi penukaran link Google Drive anda yang akan menyebabkan gambar tidak keluar (pecah) apabila dipaparkan di `dinamic_galeri.html`.
+
+Di dalam fungsi `convertToDirectLink`, anda tertinggal tanda `$` untuk pembacaan variabel string (Template Literals).
+
+---
+
+### Isu Yang Perlu Diperbaiki
+
+Perhatikan baris kod ini pada skrip anda:
+
+```javascript
+return `https://lh3.googleusercontent.com/d/1XFLL11aHsc60f9IFBaqJcfkbjP0jm9ci9{driveId}`;
+
+```
+
+Sebab tiada tanda `$`, sistem akan menyimpan teks tulisan `{driveId}` secara bulat-bulat ke dalam database, bukannya kod ID sebenar gambar tersebut.
+
+### Kod yang Betul:
+
+Patut diletakkan simbol `$` sebelum kurungan seperti ini:
+
+```javascript
+return `https://lh3.googleusercontent.com/d/1L2TDkM8k8IZzlJ7MCXrh_Yi7QvH6n1Kf1${driveId}`;
+
+```
+
+---
+
+### Kod Penuh `upload.html` yang Telah Dibersihkan
+
+Sila salin semula keseluruhan kod di bawah yang telah dibetulkan isu string tersebut supaya pautan gambar anda disimpan dengan sempurna:
+
+```html
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -214,26 +247,24 @@
 <script>
   // 1. KONFIGURASI SUPABASE & PASSWORD ANDA
   const SUPABASE_URL = "https://risqswbpixtoemnmzyqe.supabase.co"; 
-  const SUPABASE_ANON_KEY = "sb_publishable_08Jn4E6Zrvr5DSFNnpx9sg_HE9sdI_ssb_publishable_08Jn4E6Zrvr5DSFNnpx9sg_HE9sdI_s"; // Masukkan Anon Key Supabase anda
+  const SUPABASE_ANON_KEY = "sb_publishable_08Jn4E6Zrvr5DSFNnpx9sg_HE9sdI_ssb_publishable_08Jn4E6Zrvr5DSFNnpx9sg_HE9sdI_s"; 
   
-  // TUKAR KATA LALUAN RAHSIA GURU DI SINI
   const ADMIN_PASSWORD = "tabika2026"; 
 
   const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Fungsi automatik mengekstrak ID Google Drive
+  // DI SINI TELAH DIBETULKAN `22${driveId}`
   function convertToDirectLink(inputLink) {
     const driveIdRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=))?([a-zA-Z0-9_-]{25,50})/;
     const match = inputLink.match(driveIdRegex);
     
     if (match && match[1]) {
       const driveId = match[1];
-      return `https://lh3.googleusercontent.com/d/1XFLL11aHsc60f9IFBaqJcfkbjP0jm9ci9{driveId}`;
+      return `https://lh3.googleusercontent.com/d/1L2TDkM8k8IZzlJ7MCXrh_Yi7QvH6n1Kf3${driveId}`;
     }
     return inputLink;
   }
 
-  // Pengurusan borang
   document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -247,7 +278,6 @@
     const raw_photo_url = document.getElementById('main_photo_url').value;
     const drive_folder_url = document.getElementById('drive_folder_url').value;
 
-    // SEKATAN 1: Semak jika password betul di peringkat frontend
     if (inputPassword !== ADMIN_PASSWORD) {
       statusMsg.className = "status-msg status-error";
       statusMsg.innerText = "❌ Kata Laluan Salah! Anda tidak dibenarkan mengemaskini galeri.";
@@ -255,7 +285,6 @@
       return;
     }
 
-    // Tukar link Google Drive mentah
     const final_main_photo_url = convertToDirectLink(raw_photo_url);
 
     submitBtn.innerText = "Sedang disimpan...";
@@ -280,7 +309,6 @@
       statusMsg.innerText = "🎉 Berjaya! Aktiviti baru telah dimasukkan ke dalam galeri.";
       statusMsg.style.display = "block";
 
-      // Reset borang (kecuali password untuk mudahkan cikgu buat kali kedua)
       document.getElementById('title').value = '';
       document.getElementById('event_date').value = '';
       document.getElementById('description').value = '';
@@ -301,3 +329,5 @@
 
 </body>
 </html>
+
+```
