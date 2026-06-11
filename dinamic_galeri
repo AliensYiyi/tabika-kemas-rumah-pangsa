@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeri | TABIKA KEMAS Rumah Pangsa</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --primary: #4f8cff;
+      --primary-dark: #2563eb;
+      --secondary: #ffd166;
+      --pink: #ff7eb6;
+      --green: #7bd88f;
+      --cream: #fff8e7;
+      --white: #ffffff;
+      --text: #24324b;
+      --muted: #667085;
+      --shadow: 0 18px 35px rgba(37, 99, 235, .16);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 209, 102, .35), transparent 25%),
+        radial-gradient(circle at 90% 15%, rgba(255, 126, 182, .25), transparent 28%),
+        radial-gradient(circle at 20% 85%, rgba(123, 216, 143, .25), transparent 25%),
+        linear-gradient(135deg, #eef7ff 0%, #fffaf0 55%, #fff1f7 100%);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ================= NAVBAR ================= */
+    .navbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(255, 255, 255, .9);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 25px rgba(79, 140, 255, .18);
+      border-bottom: 4px solid var(--secondary);
+    }
+
+    .nav-container {
+      width: 100%;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--primary-dark);
+      font-size: 19px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .brand img {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 4px solid var(--secondary);
+      background: white;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: .25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    #menu-check {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      cursor: pointer;
+    }
+
+    /* ================= PAGE ================= */
+    .page-content {
+      flex: 1;
+      max-width: 1250px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 50px 24px;
+    }
+
+    .page-head {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .page-head h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      margin-bottom: 12px;
+    }
+
+    .page-head p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    /* ================= ALBUM GRID ================= */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    .gallery-item {
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, .12);
+      border: 3px solid rgba(255,255,255,.9);
+      transition: 0.35s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 28px 50px rgba(37, 99, 235, .22);
+      border-color: var(--secondary);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-info {
+      padding: 18px;
+      text-align: left;
+    }
+
+    .gallery-caption {
+      font-weight: 900;
+      color: var(--primary-dark);
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .gallery-date {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: bold;
+    }
+
+    .gallery-desc {
+      font-size: 14px;
+      color: var(--text);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .folder-overlay {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,.92);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    /* ================= BUTTON ================= */
+    .btn-back, .btn-drive {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.25s ease;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 20px rgba(79,140,255,.2);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-drive {
+      background: var(--green);
+      color: #1a4a25;
+      margin-left: 10px;
+    }
+
+    .btn-back:hover { background: var(--primary-dark); transform: translateY(-3px); }
+    .btn-drive:hover { background: #5ec274; transform: translateY(-3px); }
+
+    /* Loading text style */
+    .loading-status {
+      text-align: center;
+      font-size: 18px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+      padding: 40px;
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      text-align: center;
+      color: var(--text);
+      background: rgba(255,255,255,.72);
+      padding: 35px 20px;
+      border-top: 4px solid var(--secondary);
+      font-weight: 700;
+      margin-top: 50px;
+    }
+
+    /* Mobile Responsive rules... */
+    @media (max-width: 1050px) {
+      .menu-toggle { display: block; }
+      .nav-container { flex-wrap: wrap; }
+      .nav-links {
+        width: 100%; display: none; flex-direction: column;
+        align-items: stretch; background: white; padding: 15px;
+        border-radius: 22px; box-shadow: var(--shadow);
+      }
+      #menu-check:checked ~ .nav-links { display: flex; }
+      .nav-links a { text-align: center; }
+    }
+    @media (max-width: 650px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .nav-container, .page-content { padding-left: 16px; padding-right: 16px; }
+      .brand { font-size: 15px; white-space: normal; line-height: 1.2; }
+      .brand img { width: 44px; height: 44px; }
+      .page-head h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=300&auto=format&fit=crop" alt="Logo Tabika">
+        <span>TABIKA KEMAS Rumah Pangsa</span>
+      </div>
+
+      <input type="checkbox" id="menu-check" />
+      <label for="menu-check" class="menu-toggle">☰</label>
+
+      <nav class="nav-links">
+        <a href="index.html">Utama</a>
+        <a href="index.html#tentang">Tentang</a>
+        <a href="program.html">Program</a>
+        <a href="ajk.html">Guru & AJK</a>
+        <a href="PIBG.html">Buku Program PIBG</a>
+        <a href="galeri.html" class="active">Galeri</a>
+        <a href="hubungi.html">Hubungi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="page-head">
+      <h1>🎨 Galeri Aktiviti</h1>
+      <p>Lihatlah momen-momen indah, keceriaan dan aktiviti pembelajaran anak-anak kita.</p>
+    </div>
+
+    <div class="gallery-grid" id="albums-view">
+      <div class="loading-status">Memuatkan galeri dari pangkalan data...</div>
+    </div>
+
+    <div id="photos-view" style="display: none;">
+      <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
+      <a id="drive-folder-link" href="#" target="_blank" class="btn-drive">📁 Lihat Semua Foto di Google Drive</a>
+      
+      <h2 id="current-album-title" style="margin-bottom: 8px; color: var(--primary-dark);"></h2>
+      <p id="current-album-date" style="color: var(--muted); font-weight: bold; margin-bottom: 12px;"></p>
+      <p id="current-album-desc" style="margin-bottom: 24px; font-size: 16px; max-width: 800px;"></p>
+      
+      <div class="gallery-grid" id="photos-grid">
+        </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 TABIKA KEMAS Rumah Pangsa. Pembelajaran Ceria Bermula Di Sini 🌟</p>
+  </footer>
+
+  <script>
+    // 1. YOUR SUPABASE CONFIGURATION
+    const SUPABASE_URL = "https://risqswbpixtoemnmzyqe.supabase.co"; 
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpc3Fzd2JwaXh0b2Vtbm16eXFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODQ2NTMsImV4cCI6MjA5Njc2MDY1M30.GX1MLG4lQ_Uz4BlmgrM0SPljbCoYC7k4LpAWobr5PGQ";
+    
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Global variable to hold loaded events data
+    let globalEventsData = [];
+
+    // 2. FETCH DATA FROM SUPABASE
+    async function fetchGalleryEvents() {
+      const albumsView = document.getElementById('albums-view');
+      
+      try {
+        const { data, error } = await supabase
+          .from('gallery_events')
+          .select('*')
+          .order('event_date', { ascending: false });
+
+        if (error) throw error;
+
+        globalEventsData = data;
+        renderAlbums(data);
+
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        albumsView.innerHTML = `<div class="loading-status" style="color: red;">Gagal memuatkan data. Sila cuba lagi kemudian.</div>`;
+      }
+    }
+
+    // 3. RENDER ALBUMS DYNAMICALLY
+    function renderAlbums(events) {
+      const albumsView = document.getElementById('albums-view');
+      if (events.length === 0) {
+        albumsView.innerHTML = `<div class="loading-status">Tiada album dijumpai buat masa ini.</div>`;
+        return;
+      }
+
+      albumsView.innerHTML = ''; // Clear loading screen
+
+      events.forEach(event => {
+        // Format SQL date to local Malay format (e.g. 12/05/2026)
+        const formattedDate = event.event_date ? new Date(event.event_date).toLocaleDateString('ms-MY') : '';
+
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.setAttribute('onclick', `openAlbum('${event.id}')`);
+        
+        item.innerHTML = `
+          <img src="${event.main_photo_url}" alt="${event.title}">
+          <div class="folder-overlay">📁 Info</div>
+          <div class="gallery-info">
+            <div class="gallery-caption">${event.title}</div>
+            <div class="gallery-date">📅 ${formattedDate}</div>
+            <div class="gallery-desc">${event.description || ''}</div>
+          </div>
+        `;
+        albumsView.appendChild(item);
+      });
+
+      // Check if hash URL requires direct opening
+      checkHashRoute();
+    }
+
+    // 4. OPEN SPECIFIC EVENT
+    function openAlbum(eventId) {
+      const event = globalEventsData.find(e => e.id === eventId);
+      if (!event) return;
+
+      document.getElementById('albums-view').style.display = 'none';
+      document.getElementById('photos-view').style.display = 'block';
+      
+      // Update text details
+      document.getElementById('current-album-title').innerText = event.title;
+      document.getElementById('current-album-date').innerText = "Tarikh Aktiviti: " + new Date(event.event_date).toLocaleDateString('ms-MY');
+      document.getElementById('current-album-desc').innerText = event.description || '';
+      
+      // Setup the Google Drive button redirection link
+      document.getElementById('drive-folder-link').href = event.drive_folder_url;
+      
+      // Showcase the primary main image
+      const photosGrid = document.getElementById('photos-grid');
+      photosGrid.innerHTML = `
+        <div class="gallery-item" style="cursor: default; grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
+          <img src="${event.main_photo_url}" alt="${event.title}">
+          <div class="gallery-info" style="text-align: center; font-weight: bold;">Gambar Utama Event</div>
+        </div>
+      `;
+
+      // Update URL window address hash state without refreshing page
+      history.pushState(null, null, '#' + eventId);
+      window.scrollTo(0, 0);
+    }
+
+    // 5. CLOSE ALBUM VIEW
+    function closeAlbum() {
+      document.getElementById('albums-view').style.display = 'grid';
+      document.getElementById('photos-view').style.display = 'none';
+      history.pushState(null, null, window.location.pathname);
+    }
+
+    // Check direct incoming hash routing IDs
+    function checkHashRoute() {
+      const hash = window.location.hash.substring(1);
+      if (hash && globalEventsData.some(e => e.id === hash)) {
+        openAlbum(hash);
+      }
+    }
+
+    // Initialize content upon page load
+    window.addEventListener('DOMContentLoaded', fetchGalleryEvents);
+  </script>
+</body>
+</html>
