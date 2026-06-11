@@ -28,9 +28,34 @@
       min-height: 100vh;
       background: linear-gradient(135deg, #eef7ff 0%, #fffaf0 100%);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 40px 20px;
+    }
+
+    .btn-back-gallery {
+      background: #ffffff;
+      color: var(--primary-dark);
+      border: 3px solid var(--primary);
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.25s ease;
+      margin-bottom: 25px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(79,140,255,.1);
+    }
+
+    .btn-back-gallery:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(79,140,255,.2);
     }
 
     .upload-container {
@@ -134,10 +159,13 @@
       font-size: 12px;
       color: var(--muted);
       margin-top: 4px;
+      line-height: 1.4;
     }
   </style>
 </head>
 <body>
+
+<a href="dinamic_galeri.html" class="btn-back-gallery">🔙 Kembali ke Laman Galeri</a>
 
 <div class="upload-container">
   <h1>📤 Muat Naik Aktiviti Baru</h1>
@@ -161,8 +189,8 @@
 
     <div class="form-group">
       <label for="main_photo_url">🖼️ Link Gambar Utama (Cover Photo)</label>
-      <input type="text" id="main_photo_url" placeholder="Sila masukkan link direct gambar dari Google Drive" required>
-      <div class="hint">Nota: Gambar ini akan dipaparkan di halaman utama galeri.</div>
+      <input type="text" id="main_photo_url" placeholder="Tampal pautan perkongsian atau ID Google Drive di sini" required>
+      <div class="hint">Sistem akan mengekstrak pautan ini secara automatik untuk paparan gambar.</div>
     </div>
 
     <div class="form-group">
@@ -178,32 +206,44 @@
 </div>
 
 <script>
-  // 1. ISIKAN MAKLUMAT SUPABASE ANDA DI SINI
+  // 1. KONFIGURASI SUPABASE ANDA
   const SUPABASE_URL = "https://risqswbpixtoemnmzyqe.supabase.co"; 
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpc3Fzd2JwaXh0b2Vtbm16eXFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODQ2NTMsImV4cCI6MjA5Njc2MDY1M30.GX1MLG4lQ_Uz4BlmgrM0SPljbCoYC7k4LpAWobr5PGQ"; // Masukkan Anon Key anda
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpc3Fzd2JwaXh0b2Vtbm16eXFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODQ2NTMsImV4cCI6MjA5Njc2MDY1M30.GX1MLG4lQ_Uz4BlmgrM0SPljbCoYC7k4LpAWobr5PGQ"; 
   
   const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Handle Form Submission
+  // Fungsi automatik mengekstrak ID Google Drive dan menukarnya menjadi direct link imej yang stabil
+  function convertToDirectLink(inputLink) {
+    const driveIdRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=))?([a-zA-Z0-9_-]{25,50})/;
+    const match = inputLink.match(driveIdRegex);
+    
+    if (match && match[1]) {
+      const driveId = match[1];
+      return `https://lh3.googleusercontent.com/d/1XFLL11aHsc60f9IFBaqJcfkbjP0jm9ci8{driveId}`;
+    }
+    return inputLink; // Jika input bukan link Google Drive, pulangkan semula teks asal
+  }
+
+  // Pengurusan penghantaran borang
   document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const statusMsg = document.getElementById('statusMsg');
     const submitBtn = document.querySelector('.btn-submit');
     
-    // Ambil data dari input form
     const title = document.getElementById('title').value;
     const event_date = document.getElementById('event_date').value;
     const description = document.getElementById('description').value;
-    const main_photo_url = document.getElementById('main_photo_url').value;
+    const raw_photo_url = document.getElementById('main_photo_url').value;
     const drive_folder_url = document.getElementById('drive_folder_url').value;
 
-    // Tukar status butang semasa loading
+    // Memproses link mentah Google Drive secara automatik
+    const final_main_photo_url = convertToDirectLink(raw_photo_url);
+
     submitBtn.innerText = "Sedang disimpan...";
     submitBtn.disabled = true;
 
     try {
-      // Hantar data ke dalam table Supabase (gallery_events)
       const { data, error } = await supabase
         .from('gallery_events')
         .insert([
@@ -211,19 +251,17 @@
             title: title, 
             event_date: event_date, 
             description: description, 
-            main_photo_url: main_photo_url, 
+            main_photo_url: final_main_photo_url, 
             drive_folder_url: drive_folder_url 
           }
         ]);
 
       if (error) throw error;
 
-      // Papar mesej berjaya
       statusMsg.className = "status-msg status-success";
       statusMsg.innerText = "🎉 Berjaya! Aktiviti baru telah dimasukkan ke dalam galeri.";
       statusMsg.style.display = "block";
 
-      // Reset form semula
       document.getElementById('uploadForm').reset();
 
     } catch (error) {
@@ -232,7 +270,6 @@
       statusMsg.innerText = "❌ Gagal menyimpan: " + error.message;
       statusMsg.style.display = "block";
     } finally {
-      // Kembalikan butang ke asal
       submitBtn.innerText = "Simpan & Kemaskini Galeri ✨";
       submitBtn.disabled = false;
     }
