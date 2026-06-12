@@ -1,36 +1,4 @@
-Ada **satu ralat kecil** yang tersorot pada fungsi penukaran link Google Drive anda yang akan menyebabkan gambar tidak keluar (pecah) apabila dipaparkan di `dinamic_galeri.html`.
 
-Di dalam fungsi `convertToDirectLink`, anda tertinggal tanda `$` untuk pembacaan variabel string (Template Literals).
-
----
-
-### Isu Yang Perlu Diperbaiki
-
-Perhatikan baris kod ini pada skrip anda:
-
-```javascript
-return `https://lh3.googleusercontent.com/d/1XFLL11aHsc60f9IFBaqJcfkbjP0jm9ci9{driveId}`;
-
-```
-
-Sebab tiada tanda `$`, sistem akan menyimpan teks tulisan `{driveId}` secara bulat-bulat ke dalam database, bukannya kod ID sebenar gambar tersebut.
-
-### Kod yang Betul:
-
-Patut diletakkan simbol `$` sebelum kurungan seperti ini:
-
-```javascript
-return `https://lh3.googleusercontent.com/d/1L2TDkM8k8IZzlJ7MCXrh_Yi7QvH6n1Kf1${driveId}`;
-
-```
-
----
-
-### Kod Penuh `upload.html` yang Telah Dibersihkan
-
-Sila salin semula keseluruhan kod di bawah yang telah dibetulkan isu string tersebut supaya pautan gambar anda disimpan dengan sempurna:
-
-```html
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -246,12 +214,12 @@ Sila salin semula keseluruhan kod di bawah yang telah dibetulkan isu string ters
 
 <script>
   // 1. KONFIGURASI SUPABASE & PASSWORD ANDA
-  const SUPABASE_URL = "https://risqswbpixtoemnmzyqe.supabase.co"; 
-  const SUPABASE_ANON_KEY = "sb_publishable_08Jn4E6Zrvr5DSFNnpx9sg_HE9sdI_ssb_publishable_08Jn4E6Zrvr5DSFNnpx9sg_HE9sdI_s"; 
+  const SUPABASE_URL = "https://avygkvnpyqdkjyaaggub.supabase.co"; 
+  const SUPABASE_ANON_KEY = "sb_publishable_IHHhUxwzBXWb3fQ8N0WGOQ_xLVZf6OG"; 
   
   const ADMIN_PASSWORD = "tabika2026"; 
 
-  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
   // DI SINI TELAH DIBETULKAN `22${driveId}`
   function convertToDirectLink(inputLink) {
@@ -330,4 +298,3 @@ Sila salin semula keseluruhan kod di bawah yang telah dibetulkan isu string ters
 </body>
 </html>
 
-```
