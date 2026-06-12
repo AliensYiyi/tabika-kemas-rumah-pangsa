@@ -42,6 +42,7 @@
     }
 
     /* ================= NAVBAR ================= */
+
     .navbar {
       position: sticky;
       top: 0;
@@ -105,7 +106,9 @@
       transform: translateY(-2px);
     }
 
-    #menu-check { display: none; }
+    #menu-check {
+      display: none;
+    }
 
     .menu-toggle {
       display: none;
@@ -116,6 +119,7 @@
     }
 
     /* ================= PAGE ================= */
+
     .page-content {
       flex: 1;
       max-width: 1250px;
@@ -143,6 +147,7 @@
     }
 
     /* ================= ALBUM GRID ================= */
+
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
@@ -175,28 +180,27 @@
       display: block;
     }
 
-    .gallery-info {
-      padding: 18px;
-      text-align: left;
-    }
-
     .gallery-caption {
+      padding: 18px 18px 6px 18px;
+      text-align: center;
       font-weight: 900;
       color: var(--primary-dark);
       font-size: 18px;
-      margin-bottom: 6px;
     }
 
     .gallery-date {
+      text-align: center;
       font-size: 13px;
       color: var(--muted);
       font-weight: bold;
+      padding: 0 18px 4px 18px;
     }
 
     .gallery-desc {
-      font-size: 14px;
-      color: var(--text);
-      margin-top: 8px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 0 18px 18px 18px;
       line-height: 1.4;
     }
 
@@ -214,7 +218,8 @@
       backdrop-filter: blur(8px);
     }
 
-    /* ================= BUTTONS ================= */
+    /* ================= BUTTON ================= */
+
     .btn-back, .btn-drive {
       background: var(--primary);
       color: white;
@@ -225,9 +230,15 @@
       cursor: pointer;
       font-size: 15px;
       transition: 0.25s ease;
+      margin-bottom: 28px;
       box-shadow: 0 10px 20px rgba(79,140,255,.2);
       text-decoration: none;
       display: inline-block;
+    }
+
+    .btn-back:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
     }
 
     .btn-drive {
@@ -236,82 +247,79 @@
       margin-left: 10px;
     }
 
-    .btn-back:hover  { background: var(--primary-dark); transform: translateY(-3px); }
-    .btn-drive:hover { background: #5ec274; transform: translateY(-3px); }
-
-    /* ================= DETAIL VIEW ================= */
-    .detail-header {
-      margin-bottom: 28px;
+    .btn-drive:hover {
+      background: #5ec274;
+      transform: translateY(-3px);
     }
 
-    .detail-header .btn-row {
+    .btn-row {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 22px;
     }
 
-    .detail-meta {
-      background: rgba(255,255,255,.85);
+    /* ================= PHOTO / DETAIL VIEW ================= */
+
+    #photos-grid {
+      align-items: start;
+    }
+
+    .photo-card {
+      transition: 0.3s ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
       border-radius: 22px;
-      padding: 24px 28px;
-      box-shadow: 0 8px 25px rgba(37,99,235,.09);
-      border: 3px solid var(--secondary);
-      margin-bottom: 28px;
+      box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+      border: 4px solid white;
+      display: block;
+      transition: 0.3s ease;
     }
 
-    .detail-meta h2 {
-      color: var(--primary-dark);
-      font-size: 26px;
-      margin-bottom: 6px;
+    .photo-card img:hover {
+      transform: scale(1.02);
     }
 
-    .detail-meta .meta-date {
+    .detail-meta-text {
       color: var(--muted);
-      font-weight: bold;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .detail-meta .meta-desc {
       font-size: 15px;
       line-height: 1.6;
-      color: var(--text);
-    }
-
-    /* ================= COVER PHOTO ================= */
-    .cover-photo-wrap {
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: 0 12px 35px rgba(37,99,235,.15);
-      margin-bottom: 32px;
       max-width: 700px;
+      margin: 0 0 28px 0;
     }
 
-    .cover-photo-wrap img {
-      width: 100%;
+    .detail-meta-text .meta-date {
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
       display: block;
-      object-fit: cover;
     }
 
-    /* ================= DRIVE EMBED ================= */
     .drive-section-title {
       font-size: 20px;
       font-weight: 900;
       color: var(--primary-dark);
-      margin-bottom: 14px;
+      margin: 30px 0 14px 0;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .drive-embed-wrap {
-      background: white;
-      border-radius: 22px;
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 12px 35px rgba(37,99,235,.13);
-      border: 3px solid var(--secondary);
+      box-shadow: 0 18px 40px rgba(37, 99, 235, .12);
+      border: 3px solid rgba(255,255,255,.9);
     }
 
     .drive-embed-wrap iframe {
@@ -323,14 +331,13 @@
 
     .drive-embed-notice {
       background: #fffbeb;
-      border-top: 2px dashed #fcd34d;
+      border-top: 2px dashed var(--secondary);
       padding: 14px 20px;
       font-size: 13px;
       color: var(--muted);
       text-align: center;
     }
 
-    /* Loading text style */
     .loading-status {
       text-align: center;
       font-size: 18px;
@@ -340,6 +347,7 @@
     }
 
     /* ================= FOOTER ================= */
+
     footer {
       text-align: center;
       color: var(--text);
@@ -350,27 +358,68 @@
       margin-top: 50px;
     }
 
-    /* ================= RESPONSIVE ================= */
+    /* ================= MOBILE ================= */
+
     @media (max-width: 1050px) {
-      .menu-toggle { display: block; }
-      .nav-container { flex-wrap: wrap; }
-      .nav-links {
-        width: 100%; display: none; flex-direction: column;
-        align-items: stretch; background: white; padding: 15px;
-        border-radius: 22px; box-shadow: var(--shadow);
+
+      .menu-toggle {
+        display: block;
       }
-      #menu-check:checked ~ .nav-links { display: flex; }
-      .nav-links a { text-align: center; }
+
+      .nav-container {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        background: white;
+        padding: 15px;
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      #menu-check:checked ~ .nav-links {
+        display: flex;
+      }
+
+      .nav-links a {
+        text-align: center;
+      }
     }
 
     @media (max-width: 650px) {
-      .gallery-grid { grid-template-columns: 1fr; }
-      .nav-container, .page-content { padding-left: 16px; padding-right: 16px; }
-      .brand { font-size: 15px; white-space: normal; line-height: 1.2; }
-      .brand img { width: 44px; height: 44px; }
-      .page-head h1 { font-size: 28px; }
-      .drive-embed-wrap iframe { height: 480px; }
-      .detail-meta { padding: 18px; }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-container,
+      .page-content {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .brand {
+        font-size: 15px;
+        white-space: normal;
+        line-height: 1.2;
+      }
+
+      .brand img {
+        width: 44px;
+        height: 44px;
+      }
+
+      .page-head h1 {
+        font-size: 28px;
+      }
+
+      .drive-embed-wrap iframe {
+        height: 480px;
+      }
     }
   </style>
 </head>
@@ -382,8 +431,10 @@
         <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=300&auto=format&fit=crop" alt="Logo Tabika">
         <span>TABIKA KEMAS Rumah Pangsa</span>
       </div>
+
       <input type="checkbox" id="menu-check" />
       <label for="menu-check" class="menu-toggle">☰</label>
+
       <nav class="nav-links">
         <a href="index.html">Utama</a>
         <a href="index.html#tentang">Tentang</a>
@@ -404,6 +455,7 @@
         <h1>🎨 Galeri Aktiviti</h1>
         <p>Lihatlah momen-momen indah, keceriaan dan aktiviti pembelajaran anak-anak kita.</p>
       </div>
+
       <div class="gallery-grid" id="albums-grid">
         <div class="loading-status">Memuatkan galeri dari pangkalan data...</div>
       </div>
@@ -411,21 +463,20 @@
 
     <!-- ===== ALBUM DETAIL VIEW ===== -->
     <div id="photos-view" style="display: none;">
+      <div class="btn-row" style="margin-bottom: 28px;">
+        <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
+        <a id="drive-folder-link" href="#" target="_blank" class="btn-drive" style="margin-bottom: 28px;">📁 Buka di Google Drive</a>
+      </div>
 
-      <div class="detail-header">
-        <div class="btn-row">
-          <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
-          <a id="drive-folder-link" href="#" target="_blank" class="btn-drive">📁 Buka di Google Drive</a>
-        </div>
+      <h2 id="current-album-title" style="margin-bottom: 10px; color: var(--primary-dark);"></h2>
+      <div class="detail-meta-text">
+        <span class="meta-date" id="current-album-date"></span>
+        <span id="current-album-desc"></span>
+      </div>
 
-        <div class="detail-meta">
-          <h2 id="current-album-title"></h2>
-          <div class="meta-date" id="current-album-date"></div>
-          <div class="meta-desc" id="current-album-desc"></div>
-        </div>
-
-        <!-- Cover photo -->
-        <div class="cover-photo-wrap">
+      <!-- Cover photo styled like Code 1's photo-card -->
+      <div class="gallery-grid" id="photos-grid" style="margin-bottom: 10px;">
+        <div class="photo-card">
           <img id="current-cover-img" src="" alt="Gambar Utama">
         </div>
       </div>
@@ -438,7 +489,6 @@
           💡 Jika gambar tidak muncul, klik <strong>"Buka di Google Drive"</strong> di atas untuk melihat semua foto.
         </div>
       </div>
-
     </div>
   </main>
 
@@ -455,7 +505,6 @@
 
     // ── Convert any Drive folder URL → embeddable iframe src ──────────────
     function toEmbedUrl(folderUrl) {
-      // Extract folder ID from various Drive URL formats
       const match = folderUrl.match(/folders\/([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
         return `https://drive.google.com/embeddedfolderview?id=${match[1]}#grid`;
@@ -483,7 +532,7 @@
       }
     }
 
-    // ── Render album cards ─────────────────────────────────────────────────
+    // ── Render album cards (Code 1 style: image + caption) ──────────────────
     function renderAlbums(events) {
       const grid = document.getElementById('albums-grid');
       if (!events.length) {
@@ -505,11 +554,9 @@
           <img src="${event.main_photo_url}" alt="${event.title}"
                onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Tersedia'">
           <div class="folder-overlay">📁 Lihat Foto</div>
-          <div class="gallery-info">
-            <div class="gallery-caption">${event.title}</div>
-            <div class="gallery-date">📅 ${formattedDate}</div>
-            <div class="gallery-desc">${event.description || ''}</div>
-          </div>
+          <div class="gallery-caption">${event.title}</div>
+          <div class="gallery-date">📅 ${formattedDate}</div>
+          <div class="gallery-desc">${event.description || ''}</div>
         `;
         grid.appendChild(item);
       });
@@ -519,7 +566,6 @@
 
     // ── Open a specific album ──────────────────────────────────────────────
     function openAlbum(eventId) {
-      // Use == (loose) because URL hash is always a string, DB id may be int
       const event = globalEventsData.find(e => e.id == eventId);
       if (!event) return;
 
@@ -551,7 +597,6 @@
     function closeAlbum() {
       document.getElementById('albums-view').style.display  = 'block';
       document.getElementById('photos-view').style.display  = 'none';
-      // Clear iframe so it stops loading when not needed
       document.getElementById('drive-folder-iframe').src    = '';
       history.pushState(null, null, window.location.pathname);
     }
