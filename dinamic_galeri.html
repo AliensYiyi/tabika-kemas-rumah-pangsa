@@ -105,9 +105,7 @@
       transform: translateY(-2px);
     }
 
-    #menu-check {
-      display: none;
-    }
+    #menu-check { display: none; }
 
     .menu-toggle {
       display: none;
@@ -216,7 +214,7 @@
       backdrop-filter: blur(8px);
     }
 
-    /* ================= BUTTON ================= */
+    /* ================= BUTTONS ================= */
     .btn-back, .btn-drive {
       background: var(--primary);
       color: white;
@@ -227,7 +225,6 @@
       cursor: pointer;
       font-size: 15px;
       transition: 0.25s ease;
-      margin-bottom: 28px;
       box-shadow: 0 10px 20px rgba(79,140,255,.2);
       text-decoration: none;
       display: inline-block;
@@ -239,8 +236,99 @@
       margin-left: 10px;
     }
 
-    .btn-back:hover { background: var(--primary-dark); transform: translateY(-3px); }
+    .btn-back:hover  { background: var(--primary-dark); transform: translateY(-3px); }
     .btn-drive:hover { background: #5ec274; transform: translateY(-3px); }
+
+    /* ================= DETAIL VIEW ================= */
+    .detail-header {
+      margin-bottom: 28px;
+    }
+
+    .detail-header .btn-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .detail-meta {
+      background: rgba(255,255,255,.85);
+      border-radius: 22px;
+      padding: 24px 28px;
+      box-shadow: 0 8px 25px rgba(37,99,235,.09);
+      border: 3px solid var(--secondary);
+      margin-bottom: 28px;
+    }
+
+    .detail-meta h2 {
+      color: var(--primary-dark);
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .detail-meta .meta-date {
+      color: var(--muted);
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .detail-meta .meta-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* ================= COVER PHOTO ================= */
+    .cover-photo-wrap {
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(37,99,235,.15);
+      margin-bottom: 32px;
+      max-width: 700px;
+    }
+
+    .cover-photo-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* ================= DRIVE EMBED ================= */
+    .drive-section-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drive-embed-wrap {
+      background: white;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(37,99,235,.13);
+      border: 3px solid var(--secondary);
+    }
+
+    .drive-embed-wrap iframe {
+      width: 100%;
+      height: 680px;
+      border: none;
+      display: block;
+    }
+
+    .drive-embed-notice {
+      background: #fffbeb;
+      border-top: 2px dashed #fcd34d;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
 
     /* Loading text style */
     .loading-status {
@@ -262,7 +350,7 @@
       margin-top: 50px;
     }
 
-    /* Mobile Responsive rules... */
+    /* ================= RESPONSIVE ================= */
     @media (max-width: 1050px) {
       .menu-toggle { display: block; }
       .nav-container { flex-wrap: wrap; }
@@ -274,12 +362,15 @@
       #menu-check:checked ~ .nav-links { display: flex; }
       .nav-links a { text-align: center; }
     }
+
     @media (max-width: 650px) {
       .gallery-grid { grid-template-columns: 1fr; }
       .nav-container, .page-content { padding-left: 16px; padding-right: 16px; }
       .brand { font-size: 15px; white-space: normal; line-height: 1.2; }
       .brand img { width: 44px; height: 44px; }
       .page-head h1 { font-size: 28px; }
+      .drive-embed-wrap iframe { height: 480px; }
+      .detail-meta { padding: 18px; }
     }
   </style>
 </head>
@@ -291,10 +382,8 @@
         <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=300&auto=format&fit=crop" alt="Logo Tabika">
         <span>TABIKA KEMAS Rumah Pangsa</span>
       </div>
-
       <input type="checkbox" id="menu-check" />
       <label for="menu-check" class="menu-toggle">☰</label>
-
       <nav class="nav-links">
         <a href="index.html">Utama</a>
         <a href="index.html#tentang">Tentang</a>
@@ -308,25 +397,48 @@
   </header>
 
   <main class="page-content">
-    <div class="page-head">
-      <h1>🎨 Galeri Aktiviti</h1>
-      <p>Lihatlah momen-momen indah, keceriaan dan aktiviti pembelajaran anak-anak kita.</p>
+
+    <!-- ===== ALBUMS LIST VIEW ===== -->
+    <div id="albums-view">
+      <div class="page-head">
+        <h1>🎨 Galeri Aktiviti</h1>
+        <p>Lihatlah momen-momen indah, keceriaan dan aktiviti pembelajaran anak-anak kita.</p>
+      </div>
+      <div class="gallery-grid" id="albums-grid">
+        <div class="loading-status">Memuatkan galeri dari pangkalan data...</div>
+      </div>
     </div>
 
-    <div class="gallery-grid" id="albums-view">
-      <div class="loading-status">Memuatkan galeri dari pangkalan data...</div>
-    </div>
-
+    <!-- ===== ALBUM DETAIL VIEW ===== -->
     <div id="photos-view" style="display: none;">
-      <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
-      <a id="drive-folder-link" href="#" target="_blank" class="btn-drive">📁 Lihat Semua Foto di Google Drive</a>
-      
-      <h2 id="current-album-title" style="margin-bottom: 8px; color: var(--primary-dark);"></h2>
-      <p id="current-album-date" style="color: var(--muted); font-weight: bold; margin-bottom: 12px;"></p>
-      <p id="current-album-desc" style="margin-bottom: 24px; font-size: 16px; max-width: 800px;"></p>
-      
-      <div class="gallery-grid" id="photos-grid">
+
+      <div class="detail-header">
+        <div class="btn-row">
+          <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
+          <a id="drive-folder-link" href="#" target="_blank" class="btn-drive">📁 Buka di Google Drive</a>
         </div>
+
+        <div class="detail-meta">
+          <h2 id="current-album-title"></h2>
+          <div class="meta-date" id="current-album-date"></div>
+          <div class="meta-desc" id="current-album-desc"></div>
+        </div>
+
+        <!-- Cover photo -->
+        <div class="cover-photo-wrap">
+          <img id="current-cover-img" src="" alt="Gambar Utama">
+        </div>
+      </div>
+
+      <!-- Drive folder embedded -->
+      <div class="drive-section-title">🖼️ Semua Foto Aktiviti</div>
+      <div class="drive-embed-wrap">
+        <iframe id="drive-folder-iframe" src="" allowfullscreen></iframe>
+        <div class="drive-embed-notice">
+          💡 Jika gambar tidak muncul, klik <strong>"Buka di Google Drive"</strong> di atas untuk melihat semua foto.
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -335,19 +447,25 @@
   </footer>
 
   <script>
-    // 1. YOUR SUPABASE CONFIGURATION
-    const SUPABASE_URL = "https://avygkvnpyqdkjyaaggub.supabase.co"; 
+    const SUPABASE_URL    = "https://avygkvnpyqdkjyaaggub.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_IHHhUxwzBXWb3fQ8N0WGOQ_xLVZf6OG";
-    
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient  = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Global variable to hold loaded events data
     let globalEventsData = [];
 
-    // 2. FETCH DATA FROM SUPABASE
+    // ── Convert any Drive folder URL → embeddable iframe src ──────────────
+    function toEmbedUrl(folderUrl) {
+      // Extract folder ID from various Drive URL formats
+      const match = folderUrl.match(/folders\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        return `https://drive.google.com/embeddedfolderview?id=${match[1]}#grid`;
+      }
+      return folderUrl; // fallback: use as-is
+    }
+
+    // ── Fetch all events from Supabase ─────────────────────────────────────
     async function fetchGalleryEvents() {
-      const albumsView = document.getElementById('albums-view');
-      
+      const grid = document.getElementById('albums-grid');
       try {
         const { data, error } = await supabaseClient
           .from('gallery_events')
@@ -361,90 +479,91 @@
 
       } catch (err) {
         console.error("Error fetching data:", err);
-        albumsView.innerHTML = `<div class="loading-status" style="color: red;">Gagal memuatkan data. Sila cuba lagi kemudian.</div>`;
+        grid.innerHTML = `<div class="loading-status" style="color:red;">Gagal memuatkan data. Sila cuba lagi kemudian.<br><small>${err.message}</small></div>`;
       }
     }
 
-    // 3. RENDER ALBUMS DYNAMICALLY
+    // ── Render album cards ─────────────────────────────────────────────────
     function renderAlbums(events) {
-      const albumsView = document.getElementById('albums-view');
-      if (events.length === 0) {
-        albumsView.innerHTML = `<div class="loading-status">Tiada album dijumpai buat masa ini.</div>`;
+      const grid = document.getElementById('albums-grid');
+      if (!events.length) {
+        grid.innerHTML = `<div class="loading-status">Tiada album dijumpai buat masa ini.</div>`;
         return;
       }
 
-      albumsView.innerHTML = ''; // Clear loading screen
-
+      grid.innerHTML = '';
       events.forEach(event => {
-        // Format SQL date to local Malay format (e.g. 12/05/2026)
-        const formattedDate = event.event_date ? new Date(event.event_date).toLocaleDateString('ms-MY') : '';
+        const formattedDate = event.event_date
+          ? new Date(event.event_date).toLocaleDateString('ms-MY')
+          : '';
 
         const item = document.createElement('div');
         item.className = 'gallery-item';
-        item.setAttribute('onclick', `openAlbum('${event.id}')`);
-        
+        item.onclick = () => openAlbum(event.id);
+
         item.innerHTML = `
-          <img src="${event.main_photo_url}" alt="${event.title}">
-          <div class="folder-overlay">📁 Info</div>
+          <img src="${event.main_photo_url}" alt="${event.title}"
+               onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Tersedia'">
+          <div class="folder-overlay">📁 Lihat Foto</div>
           <div class="gallery-info">
             <div class="gallery-caption">${event.title}</div>
             <div class="gallery-date">📅 ${formattedDate}</div>
             <div class="gallery-desc">${event.description || ''}</div>
           </div>
         `;
-        albumsView.appendChild(item);
+        grid.appendChild(item);
       });
 
-      // Check if hash URL requires direct opening
       checkHashRoute();
     }
 
-    // 4. OPEN SPECIFIC EVENT
+    // ── Open a specific album ──────────────────────────────────────────────
     function openAlbum(eventId) {
-      const event = globalEventsData.find(e => e.id === eventId);
+      // Use == (loose) because URL hash is always a string, DB id may be int
+      const event = globalEventsData.find(e => e.id == eventId);
       if (!event) return;
 
-      document.getElementById('albums-view').style.display = 'none';
-      document.getElementById('photos-view').style.display = 'block';
-      
-      // Update text details
+      // Populate meta
       document.getElementById('current-album-title').innerText = event.title;
-      document.getElementById('current-album-date').innerText = "Tarikh Aktiviti: " + new Date(event.event_date).toLocaleDateString('ms-MY');
-      document.getElementById('current-album-desc').innerText = event.description || '';
-      
-      // Setup the Google Drive button redirection link
-      document.getElementById('drive-folder-link').href = event.drive_folder_url;
-      
-      // Showcase the primary main image
-      const photosGrid = document.getElementById('photos-grid');
-      photosGrid.innerHTML = `
-        <div class="gallery-item" style="cursor: default; grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
-          <img src="${event.main_photo_url}" alt="${event.title}">
-          <div class="gallery-info" style="text-align: center; font-weight: bold;">Gambar Utama Event</div>
-        </div>
-      `;
+      document.getElementById('current-album-date').innerText  =
+        '📅 ' + new Date(event.event_date).toLocaleDateString('ms-MY');
+      document.getElementById('current-album-desc').innerText  = event.description || '';
 
-      // Update URL window address hash state without refreshing page
+      // Cover photo
+      document.getElementById('current-cover-img').src = event.main_photo_url;
+      document.getElementById('current-cover-img').alt = event.title;
+
+      // Drive button
+      document.getElementById('drive-folder-link').href = event.drive_folder_url;
+
+      // Embed Drive folder iframe
+      document.getElementById('drive-folder-iframe').src = toEmbedUrl(event.drive_folder_url);
+
+      // Switch views
+      document.getElementById('albums-view').style.display  = 'none';
+      document.getElementById('photos-view').style.display  = 'block';
+
       history.pushState(null, null, '#' + eventId);
       window.scrollTo(0, 0);
     }
 
-    // 5. CLOSE ALBUM VIEW
+    // ── Close album, back to list ──────────────────────────────────────────
     function closeAlbum() {
-      document.getElementById('albums-view').style.display = 'grid';
-      document.getElementById('photos-view').style.display = 'none';
+      document.getElementById('albums-view').style.display  = 'block';
+      document.getElementById('photos-view').style.display  = 'none';
+      // Clear iframe so it stops loading when not needed
+      document.getElementById('drive-folder-iframe').src    = '';
       history.pushState(null, null, window.location.pathname);
     }
 
-    // Check direct incoming hash routing IDs
+    // ── Handle direct URL with hash ────────────────────────────────────────
     function checkHashRoute() {
       const hash = window.location.hash.substring(1);
-      if (hash && globalEventsData.some(e => e.id === hash)) {
+      if (hash && globalEventsData.some(e => e.id == hash)) {
         openAlbum(hash);
       }
     }
 
-    // Initialize content upon page load
     window.addEventListener('DOMContentLoaded', fetchGalleryEvents);
   </script>
 </body>
