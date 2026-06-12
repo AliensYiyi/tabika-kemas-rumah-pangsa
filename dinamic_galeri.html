@@ -336,10 +336,10 @@
 
   <script>
     // 1. YOUR SUPABASE CONFIGURATION
-    const SUPABASE_URL = "https://risqswbpixtoemnmzyqe.supabase.co"; 
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpc3Fzd2JwaXh0b2Vtbm16eXFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODQ2NTMsImV4cCI6MjA5Njc2MDY1M30.GX1MLG4lQ_Uz4BlmgrM0SPljbCoYC7k4LpAWobr5PGQ";
+    const SUPABASE_URL = "https://avygkvnpyqdkjyaaggub.supabase.co"; 
+    const SUPABASE_ANON_KEY = "sb_publishable_IHHhUxwzBXWb3fQ8N0WGOQ_xLVZf6OG";
     
-    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Global variable to hold loaded events data
     let globalEventsData = [];
@@ -349,7 +349,7 @@
       const albumsView = document.getElementById('albums-view');
       
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('gallery_events')
           .select('*')
           .order('event_date', { ascending: false });
