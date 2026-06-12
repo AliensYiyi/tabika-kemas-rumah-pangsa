@@ -181,27 +181,11 @@
     }
 
     .gallery-caption {
-      padding: 18px 18px 6px 18px;
+      padding: 18px;
       text-align: center;
       font-weight: 900;
       color: var(--primary-dark);
       font-size: 18px;
-    }
-
-    .gallery-date {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: bold;
-      padding: 0 18px 4px 18px;
-    }
-
-    .gallery-desc {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      padding: 0 18px 18px 18px;
-      line-height: 1.4;
     }
 
     .folder-overlay {
@@ -220,7 +204,7 @@
 
     /* ================= BUTTON ================= */
 
-    .btn-back, .btn-drive {
+    .btn-back {
       background: var(--primary);
       color: white;
       border: none;
@@ -232,8 +216,6 @@
       transition: 0.25s ease;
       margin-bottom: 28px;
       box-shadow: 0 10px 20px rgba(79,140,255,.2);
-      text-decoration: none;
-      display: inline-block;
     }
 
     .btn-back:hover {
@@ -241,25 +223,7 @@
       transform: translateY(-3px);
     }
 
-    .btn-drive {
-      background: var(--green);
-      color: #1a4a25;
-      margin-left: 10px;
-    }
-
-    .btn-drive:hover {
-      background: #5ec274;
-      transform: translateY(-3px);
-    }
-
-    .btn-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* ================= PHOTO / DETAIL VIEW ================= */
+    /* ================= PHOTO GRID ================= */
 
     #photos-grid {
       align-items: start;
@@ -286,56 +250,6 @@
 
     .photo-card img:hover {
       transform: scale(1.02);
-    }
-
-    .detail-meta-text {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 700px;
-      margin: 0 0 28px 0;
-    }
-
-    .detail-meta-text .meta-date {
-      font-weight: 800;
-      color: var(--primary-dark);
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .drive-section-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: var(--primary-dark);
-      margin: 30px 0 14px 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .drive-embed-wrap {
-      background: rgba(255,255,255,.82);
-      backdrop-filter: blur(10px);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 18px 40px rgba(37, 99, 235, .12);
-      border: 3px solid rgba(255,255,255,.9);
-    }
-
-    .drive-embed-wrap iframe {
-      width: 100%;
-      height: 680px;
-      border: none;
-      display: block;
-    }
-
-    .drive-embed-notice {
-      background: #fffbeb;
-      border-top: 2px dashed var(--secondary);
-      padding: 14px 20px;
-      font-size: 13px;
-      color: var(--muted);
-      text-align: center;
     }
 
     .loading-status {
@@ -416,10 +330,6 @@
       .page-head h1 {
         font-size: 28px;
       }
-
-      .drive-embed-wrap iframe {
-        height: 480px;
-      }
     }
   </style>
 </head>
@@ -461,33 +371,12 @@
       </div>
     </div>
 
-    <!-- ===== ALBUM DETAIL VIEW ===== -->
+    <!-- ===== ALBUM DETAIL VIEW (Code 1 style: simple photo grid) ===== -->
     <div id="photos-view" style="display: none;">
-      <div class="btn-row" style="margin-bottom: 28px;">
-        <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
-        <a id="drive-folder-link" href="#" target="_blank" class="btn-drive" style="margin-bottom: 28px;">📁 Buka di Google Drive</a>
-      </div>
-
-      <h2 id="current-album-title" style="margin-bottom: 10px; color: var(--primary-dark);"></h2>
-      <div class="detail-meta-text">
-        <span class="meta-date" id="current-album-date"></span>
-        <span id="current-album-desc"></span>
-      </div>
-
-      <!-- Cover photo styled like Code 1's photo-card -->
-      <div class="gallery-grid" id="photos-grid" style="margin-bottom: 10px;">
-        <div class="photo-card">
-          <img id="current-cover-img" src="" alt="Gambar Utama">
-        </div>
-      </div>
-
-      <!-- Drive folder embedded -->
-      <div class="drive-section-title">🖼️ Semua Foto Aktiviti</div>
-      <div class="drive-embed-wrap">
-        <iframe id="drive-folder-iframe" src="" allowfullscreen></iframe>
-        <div class="drive-embed-notice">
-          💡 Jika gambar tidak muncul, klik <strong>"Buka di Google Drive"</strong> di atas untuk melihat semua foto.
-        </div>
+      <button class="btn-back" onclick="closeAlbum()">🔙 Kembali ke Album</button>
+      <h2 id="current-album-title" style="margin-bottom: 24px; color: var(--primary-dark);"></h2>
+      <div class="gallery-grid" id="photos-grid">
+        <!-- Gambar akan dijana oleh JavaScript -->
       </div>
     </div>
   </main>
@@ -502,15 +391,6 @@
     const supabaseClient  = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let globalEventsData = [];
-
-    // ── Convert any Drive folder URL → embeddable iframe src ──────────────
-    function toEmbedUrl(folderUrl) {
-      const match = folderUrl.match(/folders\/([a-zA-Z0-9_-]+)/);
-      if (match && match[1]) {
-        return `https://drive.google.com/embeddedfolderview?id=${match[1]}#grid`;
-      }
-      return folderUrl; // fallback: use as-is
-    }
 
     // ── Fetch all events from Supabase ─────────────────────────────────────
     async function fetchGalleryEvents() {
@@ -532,7 +412,27 @@
       }
     }
 
-    // ── Render album cards (Code 1 style: image + caption) ──────────────────
+    // ── Get the list of photo URLs for an event ──────────────────────────────
+    // Expects an optional "photos" jsonb column on gallery_events:
+    //   ["https://...jpg", "https://...jpg", ...]
+    // or [{ "src": "https://...jpg" }, ...]
+    // If missing/empty, falls back to just the main_photo_url.
+    function getEventPhotos(event) {
+      let photos = event.photos;
+
+      if (typeof photos === 'string') {
+        try { photos = JSON.parse(photos); } catch (e) { photos = null; }
+      }
+
+      if (Array.isArray(photos) && photos.length) {
+        return photos.map(p => (typeof p === 'string' ? p : (p.src || p.url || '')))
+                      .filter(Boolean);
+      }
+
+      return event.main_photo_url ? [event.main_photo_url] : [];
+    }
+
+    // ── Render album cards (Code 1 style: image + caption only) ─────────────
     function renderAlbums(events) {
       const grid = document.getElementById('albums-grid');
       if (!events.length) {
@@ -542,9 +442,7 @@
 
       grid.innerHTML = '';
       events.forEach(event => {
-        const formattedDate = event.event_date
-          ? new Date(event.event_date).toLocaleDateString('ms-MY')
-          : '';
+        const photoCount = getEventPhotos(event).length;
 
         const item = document.createElement('div');
         item.className = 'gallery-item';
@@ -553,10 +451,8 @@
         item.innerHTML = `
           <img src="${event.main_photo_url}" alt="${event.title}"
                onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Tersedia'">
-          <div class="folder-overlay">📁 Lihat Foto</div>
+          <div class="folder-overlay">📁 ${photoCount} Gambar</div>
           <div class="gallery-caption">${event.title}</div>
-          <div class="gallery-date">📅 ${formattedDate}</div>
-          <div class="gallery-desc">${event.description || ''}</div>
         `;
         grid.appendChild(item);
       });
@@ -564,40 +460,34 @@
       checkHashRoute();
     }
 
-    // ── Open a specific album ──────────────────────────────────────────────
+    // ── Open a specific album (Code 1 style: photo grid) ─────────────────────
     function openAlbum(eventId) {
       const event = globalEventsData.find(e => e.id == eventId);
       if (!event) return;
 
-      // Populate meta
+      document.getElementById('albums-view').style.display = 'none';
+      document.getElementById('photos-view').style.display = 'block';
       document.getElementById('current-album-title').innerText = event.title;
-      document.getElementById('current-album-date').innerText  =
-        '📅 ' + new Date(event.event_date).toLocaleDateString('ms-MY');
-      document.getElementById('current-album-desc').innerText  = event.description || '';
 
-      // Cover photo
-      document.getElementById('current-cover-img').src = event.main_photo_url;
-      document.getElementById('current-cover-img').alt = event.title;
+      const photosGrid = document.getElementById('photos-grid');
+      photosGrid.innerHTML = '';
 
-      // Drive button
-      document.getElementById('drive-folder-link').href = event.drive_folder_url;
+      const photos = getEventPhotos(event);
+      photos.forEach(src => {
+        const item = document.createElement('div');
+        item.className = 'photo-card';
+        item.innerHTML = `<img src="${src}" alt="${event.title}">`;
+        photosGrid.appendChild(item);
+      });
 
-      // Embed Drive folder iframe
-      document.getElementById('drive-folder-iframe').src = toEmbedUrl(event.drive_folder_url);
-
-      // Switch views
-      document.getElementById('albums-view').style.display  = 'none';
-      document.getElementById('photos-view').style.display  = 'block';
-
-      history.pushState(null, null, '#' + eventId);
+      history.pushState(null, null, '#' + event.id);
       window.scrollTo(0, 0);
     }
 
     // ── Close album, back to list ──────────────────────────────────────────
     function closeAlbum() {
-      document.getElementById('albums-view').style.display  = 'block';
-      document.getElementById('photos-view').style.display  = 'none';
-      document.getElementById('drive-folder-iframe').src    = '';
+      document.getElementById('albums-view').style.display = 'block';
+      document.getElementById('photos-view').style.display = 'none';
       history.pushState(null, null, window.location.pathname);
     }
 
