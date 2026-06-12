@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -213,15 +212,14 @@
 </div>
 
 <script>
-  // 1. KONFIGURASI SUPABASE & PASSWORD ANDA
   const SUPABASE_URL = "https://avygkvnpyqdkjyaaggub.supabase.co"; 
   const SUPABASE_ANON_KEY = "sb_publishable_IHHhUxwzBXWb3fQ8N0WGOQ_xLVZf6OG"; 
-  
   const ADMIN_PASSWORD = "tabika2026"; 
 
-  const supabase = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  // ✅ FIX: renamed from 'supabase' to 'supabaseClient'
+  //    to avoid collision with the CDN's global window.supabase object
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // DI SINI TELAH DIBETULKAN `22${driveId}`
   function convertToDirectLink(inputLink) {
     const driveIdRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=))?([a-zA-Z0-9_-]{25,50})/;
     const match = inputLink.match(driveIdRegex);
@@ -259,7 +257,8 @@
     submitBtn.disabled = true;
 
     try {
-      const { data, error } = await supabase
+      // ✅ FIX: using supabaseClient instead of supabase
+      const { data, error } = await supabaseClient
         .from('gallery_events')
         .insert([
           { 
@@ -297,4 +296,3 @@
 
 </body>
 </html>
-
