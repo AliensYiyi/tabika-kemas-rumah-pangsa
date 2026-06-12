@@ -221,15 +221,15 @@
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   function convertToDirectLink(inputLink) {
-    const driveIdRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=))?([a-zA-Z0-9_-]{25,50})/;
-    const match = inputLink.match(driveIdRegex);
-    
-    if (match && match[1]) {
-      const driveId = match[1];
-      return `https://lh3.googleusercontent.com/d/1L2TDkM8k8IZzlJ7MCXrh_Yi7QvH6n1Kf3${driveId}`;
-    }
-    return inputLink;
+  const driveIdRegex = /\/d\/([a-zA-Z0-9_-]{25,})|id=([a-zA-Z0-9_-]{25,})/;
+  const match = inputLink.match(driveIdRegex);
+  
+  if (match) {
+    const driveId = match[1] || match[2];
+    return `https://drive.google.com/thumbnail?id=${driveId}&sz=w800`;
   }
+  return inputLink; // return as-is if not a Drive link
+}
 
   document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
